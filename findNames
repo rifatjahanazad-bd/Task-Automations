@@ -1,0 +1,93 @@
+import os
+import time
+import pandas as pd
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+
+# --- কনফিগারেশন ---
+INPUT_FILE = "Automate.xlsx"  # আপনার ইনপুট ফাইল যেখানে Col B তে HCP ID আছে
+OUTPUT_FILE = "All_Doctor.xlsx"
+
+# --- কানেকশন সেটআপ ---
+options = webdriver.ChromeOptions()
+options.add_experimental_option("debuggerAddress", "127.0.0.1:9222")
+
+try:
+    driver = webdriver.Chrome(options=options)
+    wait = WebDriverWait(driver, 10)
+    print("✅ Connected to Omnizia!")
+except Exception as e:
+    print(f"❌ Connection Failed: {e}")
+    exit()
+
+# --- এক্সেল ফাইল পড়া ---
+if not os.path.exists(INPUT_FILE):
+    print(f"❌ '{INPUT_FILE}' file NOT FOUND!")
+    exit()
+
+input_df = pd.read_excel(INPUT_FILE, header=None)
+# প্রথম কলাম (Index 0) থেকে HCP ID গুলো নেওয়া হচ্ছে (দ্বিতীয় সারি থেকে শুরু করে)
+hcp_ids = input_df.iloc[1:, 0].tolist()
+
+results = []
+
+print(f"🔍 Total {len(hcp_ids)} IDs to search...\n")
+
+# --- XPath কনফিগ ---
+search_xpath = "//input[@placeholder='Search By Name/ID']"
+table_rows_xpath = "//table/tbody/tr"
+
+for index, h_id in enumerate(hcp_ids):
+    h_id = str(h_id).strip()
+    
+    if h_id == "nan" or not h_id:
+        results.append(["N/A", "N/A"])
+        continue
+
+    try:
+        # ১. সার্চ বক্সে ID ইনপুট দেওয়া
+        search_box = wait.until(EC.element_to_be_clickable((By.XPATH, search_xpath)))
+        search_box.click()
+        driver.execute_script("arguments[0].value = '';", search_box)
+        time.sleep(0.3)
+        search_box.send_keys(h_id)
+        time.sleep(0.2)
+        search_box.send_keys(Keys.ENTER)
+
+        # ২. আইডি ইউনিক তাই রেজাল্ট দ্রুত আসবে (৩ সেকেন্ড যথেষ্ট হতে পারে)
+        time.sleep(3)
+
+        # ৩. ডেটা চেক ও এক্সট্রাকশন
+        if "No HCP Found" in driver.page_source:
+            results.append(["Not Found"])
+            print(f"❌ {index+1}. {h_id} -> Not Found")
+        else:
+            # ইউনিক আইডি তাই সরাসরি প্রথম রো থেকে নাম (Column 2) এবং সিটি (Column 4) নেওয়া
+            # আপনার Omnizia ইন্টারফেস অনুযায়ী কলাম ইনডেক্স প্রয়োজন হলে পরিবর্তন করে নিন
+            name = driver.find_element(By.XPATH, f"{table_rows_xpath}[1]/td[2]").text
+            city = driver.find_element(By.XPATH, f"{table_rows_xpath}[1]/td[4]").text
+            
+            results.append([name, city])
+            print(f"✅ {index+1}. {h_id} -> {name} | {city}")
+
+    except Exception:
+        results.append(["Error", "Error"])
+        print(f"🛑 {index+1}. {h_id} -> Processing Error")
+
+# --- আউটপুট ফাইল তৈরি ---
+extracted_df = pd.DataFrame(results, columns=["Name", "City"], index=input_df.index[1:])
+# শুধুমাত্র HCP ID কলাম রাখা এবং এক্সট্রাক্ট করা ডেটা যোগ করা
+final_df = pd.concat([input_df.iloc[:, [0]], extracted_df], axis=1)
+
+final_df.to_excel(OUTPUT_FILE, index=False, header=False)
+
+print(f"\n🔥 Job Completed! Check the '{OUTPUT_FILE}' file.")
+
+
+# /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome \
+#   --remote-debugging-address=0.0.0.0 --remote-debugging-port=9222 \
+#   --user-data-dir=/tmp/remote-profile &
+
