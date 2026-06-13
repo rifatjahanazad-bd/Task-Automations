@@ -20,10 +20,3 @@ To boost workflow efficiency, I collaborated with an AI assistant to design this
 * **Language:** Python
 * **Libraries:** Selenium, Pandas, Openpyxl (for Excel handling)
 * **Browser Driver:** ChromeDriver
-
-## 🛠️ Setup and Installation
-
-### 1. Prerequisites
-Make sure you have Python installed, then install the required dependencies:
-```bash
-pip install pandas selenium openpyxl
