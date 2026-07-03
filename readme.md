@@ -1,10 +1,10 @@
-# HCP Verification Automator (Omnizia Scraper)
+# HCP Verification Automator (Data Scraper)
 
-A powerful Python-based web automation tool built using **Selenium** and **Pandas**. This script automates the tedious process of manually searching Healthcare Professional (HCP) IDs on the Omnizia platform, verifying their existence, and extracting their names and cities directly into an Excel sheet.
+A powerful Python-based web automation tool built using **Selenium** and **Pandas**. This script automates the tedious process of manually searching Healthcare Professional (HCP) IDs on the X company platform, verifying their existence, and extracting their names and cities directly into an Excel sheet.
 
 ## 💡 The Backstory & Challenge
 
-During my data entry role at **Omnizia**, verifying thousands of unique HCP IDs manually was incredibly time-consuming and prone to human fatigue. Each ID required copying from Excel, searching in the system, waiting for the table to load, and copying back the doctor's Name and City. 
+During my data entry role at **X**, verifying thousands of unique HCP IDs manually was incredibly time-consuming and prone to human fatigue. Each ID required copying from Excel, searching in the system, waiting for the table to load, and copying back the doctor's Name and City. 
 
 To boost workflow efficiency, I collaborated with an AI assistant to design this automation script. By using this tool, what used to take hours of manual copy-pasting is now completed flawlessly in minutes.
 
