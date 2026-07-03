@@ -18,7 +18,7 @@ options.add_experimental_option("debuggerAddress", "127.0.0.1:9222")
 try:
     driver = webdriver.Chrome(options=options)
     wait = WebDriverWait(driver, 10)
-    print("✅ Connected to Omnizia!")
+    print("✅ Connected to Website!")
 except Exception as e:
     print(f"❌ Connection Failed: {e}")
     exit()
@@ -66,7 +66,7 @@ for index, h_id in enumerate(hcp_ids):
             print(f"❌ {index+1}. {h_id} -> Not Found")
         else:
             # ইউনিক আইডি তাই সরাসরি প্রথম রো থেকে নাম (Column 2) এবং সিটি (Column 4) নেওয়া
-            # আপনার Omnizia ইন্টারফেস অনুযায়ী কলাম ইনডেক্স প্রয়োজন হলে পরিবর্তন করে নিন
+            # আপনার website ইন্টারফেস অনুযায়ী কলাম ইনডেক্স প্রয়োজন হলে পরিবর্তন করে নিন
             name = driver.find_element(By.XPATH, f"{table_rows_xpath}[1]/td[2]").text
             city = driver.find_element(By.XPATH, f"{table_rows_xpath}[1]/td[4]").text
             
