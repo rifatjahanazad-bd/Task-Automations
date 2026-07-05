@@ -14,9 +14,13 @@ To boost workflow efficiency, I collaborated with an AI assistant to design this
 * **Live Session Attachment:** Connects to an already open Chrome instance via `debuggerAddress (port 9222)`, bypassing login/re-authentication roadblocks.
 * **Smart Exception Handling:** Automatically logs "Not Found" or "Error" for invalid IDs without breaking the entire loop.
 * **Data Export:** Generates a structured output Excel file (`All_Doctor.xlsx`) combining original IDs with the extracted names and cities.
+* **Address Automation** Performs spefic work flow within website according to script and output is given by a screenshot and a excell file.
 
 ## 🚀 Tech Stack
 
 * **Language:** Python
 * **Libraries:** Selenium, Pandas, Openpyxl (for Excel handling)
 * **Browser Driver:** ChromeDriver
+
+## 🚀 Conversation with Ai: https://chatgpt.com/share/6a47e17b-dac8-83ee-b4fd-c1353a3f740c
+
