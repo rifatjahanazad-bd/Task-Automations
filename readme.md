@@ -1,3 +1,6 @@
+# Address Data Entry (Task Automation in website)
+Address Automation is a Python-based browser automation tool built with Selenium to automate healthcare provider (HCP) address updates. It reads address data from spreadsheets, navigates web forms, handles dynamic dropdowns, validates inputs, and logs failed records for review. The project was built to eliminate repetitive manual data entry, reduce human error, and speed up the address update process.
+
 # HCP Verification Automator (Data Scraper)
 
 A powerful Python-based web automation tool built using **Selenium** and **Pandas**. This script automates the tedious process of manually searching Healthcare Professional (HCP) IDs on the X company platform, verifying their existence, and extracting their names and cities directly into an Excel sheet.
@@ -14,9 +17,13 @@ To boost workflow efficiency, I collaborated with an AI assistant to design this
 * **Live Session Attachment:** Connects to an already open Chrome instance via `debuggerAddress (port 9222)`, bypassing login/re-authentication roadblocks.
 * **Smart Exception Handling:** Automatically logs "Not Found" or "Error" for invalid IDs without breaking the entire loop.
 * **Data Export:** Generates a structured output Excel file (`All_Doctor.xlsx`) combining original IDs with the extracted names and cities.
+* **Address Automation** Performs spefic work flow within website according to script and output is given by a screenshot and a excell file.
 
 ## 🚀 Tech Stack
 
 * **Language:** Python
 * **Libraries:** Selenium, Pandas, Openpyxl (for Excel handling)
 * **Browser Driver:** ChromeDriver
+
+## ✦ Conversation with Ai: https://chatgpt.com/share/6a47e17b-dac8-83ee-b4fd-c1353a3f740c
+
