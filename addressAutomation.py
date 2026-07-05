@@ -19,7 +19,7 @@ options.add_experimental_option("debuggerAddress", "127.0.0.1:9222")
 try:
     driver = webdriver.Chrome(options=options)
     wait = WebDriverWait(driver, 15)
-    print("✅ Connected to Omnizia!")
+    print("✅ Connected to website!")
 except Exception as e:
     print(f"❌ Connection Failed: {e}")
     exit()
@@ -58,7 +58,7 @@ for index, row in df.iterrows():
         continue
 
     # Navigate to dynamic profile page
-    base_url = "https://olam-dev.omnizia.com/hcp-discovery/hcp-profile-discovery-address?fromHcpID="
+    base_url = "website.com/.....-address?fromHcpID="
     driver.get(f"{base_url}{hcp_id}")
     time.sleep(4) 
     
