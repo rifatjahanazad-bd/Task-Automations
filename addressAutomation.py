@@ -58,7 +58,7 @@ for index, row in df.iterrows():
         continue
 
     # Navigate to dynamic profile page
-    base_url = "....website?fromHcpID="
+    base_url = "website.com/.....-address?fromHcpID="
     driver.get(f"{base_url}{hcp_id}")
     time.sleep(4) 
     
