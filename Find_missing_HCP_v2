@@ -17,7 +17,7 @@ options.add_experimental_option("debuggerAddress", "127.0.0.1:9222")
 try:
     driver = webdriver.Chrome(options=options)
     wait = WebDriverWait(driver, 15)
-    print("✅ Connected to Omnizia!")
+    print("✅ Connected to Website!")
 except Exception as e:
     print(f"❌ Connection Failed: {e}")
     exit()
