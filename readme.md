@@ -24,6 +24,3 @@ To boost workflow efficiency, I collaborated with an AI assistant to design this
 * **Language:** Python
 * **Libraries:** Selenium, Pandas, Openpyxl (for Excel handling)
 * **Browser Driver:** ChromeDriver
-
-## ✦ Conversation with Ai: https://chatgpt.com/share/6a47e17b-dac8-83ee-b4fd-c1353a3f740c
-
