@@ -17,7 +17,7 @@ options.add_experimental_option("debuggerAddress", "127.0.0.1:9222")
 try:
     driver = webdriver.Chrome(options=options)
     wait = WebDriverWait(driver, 15)
-    print("✅ Connected to WEBSITE!")
+    print("✅ Connected to Omnizia!")
 except Exception as e:
     print(f"❌ Connection Failed: {e}")
     exit()
@@ -27,10 +27,11 @@ if not os.path.exists(INPUT_FILE):
     exit()
 
 input_df = pd.read_excel(INPUT_FILE, header=None)
-names = input_df.iloc[:, 1].tolist()
+# names = input_df.iloc[:, 1].tolist()
+names = input_df.iloc[1:, 1].tolist()   # Start from row index 1
 results = []
 
-print(f"🔍 Total {len(names)} names to search...\n")
+print(f"🔍 Total {len(names)-1} names to search...\n")
 
 search_xpath = "//input[@placeholder='Search By Name/ID']"
 table_rows_xpath = "//table/tbody/tr"
@@ -58,7 +59,7 @@ for index, name in enumerate(names):
         time.sleep(1)
         search_box.send_keys(Keys.ENTER)
 
-        print(f"🔎 {index+1}. Searching: {name}")
+        print(f"🔎 {index}. Searching: {name}")
 
         # --- Step 3: CRITICAL FIX - Wait 2 seconds for page to refresh ---
         # This ensures old results are gone and new results are loaded
@@ -72,15 +73,24 @@ for index, name in enumerate(names):
         # --- Step 5: Check and log result ---
         if "No HCP Found" in page_text or row_count == 0:
             status = "Not Found"
-            print(f"❌ {index+1}. {name} -> Not Found")
+            print(f"\t-> Not Found")
 
         elif row_count > 1:
             status = "Multiple HCP Found"
-            print(f"⚠️ {index+1}. {name} -> Multiple HCP Found")
+            print(f"\t-> 😡 Multiple HCP Found")
 
         else:
-            status = "Found"
-            print(f"✅ {index+1}. {name} -> Found")
+            #check that table col 
+            url_field = driver.find_element(By.XPATH, f"{table_rows_xpath}[1]/td[10]").text
+            print (f"{url_field}")
+
+            #check if the entry is already done
+            if url_field == "--":
+                status = "No Speciality"
+                print(f"\t-> ✅ No Speciality")
+            else:
+                status = "Already Done"
+                print(f"\t-> ⚠️ Speciality Found")
 
         # --- Step 6: Pause 2 seconds so YOU can visually verify in browser ---
         print(f"   ⏸️  Pausing 2 sec — verify in browser...")
@@ -90,7 +100,7 @@ for index, name in enumerate(names):
 
     except Exception as e:
         results.append(["Error"])
-        print(f"🛑 {index+1}. {name} -> Error: {e}")
+        print(f"\t-> 🛑 Error: {e}")
 
 # --- Save Output ---
 extracted_df = pd.DataFrame(results, columns=["Status"])
